@@ -2,8 +2,10 @@ name: ecr push image
 
 on:
   push:
-    tags:
-      - v*  # 'v' で始まるタグに反応（例: v1.0.0）
+    branches:
+      - 'main'
+#    tags:
+#      - v*  # 'v' で始まるタグに反応（例: v1.0.0）
 
 jobs:
   push:
