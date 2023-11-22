@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  python:
+    container_name: python-container
+    image: "python-container"
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    working_dir: /home/app
+    volumes:
+      - ./src:/home/app
+      - ./docker/requirements.txt:/tmp/requirements.txt
+    tty: true
+    env_file:
+      - .env

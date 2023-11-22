@@ -2,34 +2,35 @@ from datetime import datetime, timedelta
 
 import pytz
 
-from config import basic_info
-from all.src.service.instagram.instagram_service import InstagramService
-from all.src.service.spread.spread_service import SpreadService
-import os
+from config.config import basic_info
+from service.instagram.instagram_service import InstagramService
+from service.spread.spread_service import SpreadService
 
 
 class Main:
-    def exec(self):
+    def __init__(self):
         # リクエストパラメータ
-        params = basic_info()  # リクエストパラメータ
+        self.params = basic_info()  # リクエストパラメータ
+
+    def exec(self):
 
         instagram_service = InstagramService()
 
         # フォロワー数、メディア数（投稿数）、メディアデータリスト
         user_usiness_discovery_data: dict = dict()
-        response = instagram_service.get_user_business_discovery(params)["json_data"]["business_discovery"]
+        response = instagram_service.get_user_business_discovery(self.params)["json_data"]["business_discovery"]
         for key, value in response.items():
             user_usiness_discovery_data[key] = value
 
         # メディア単体データ詳細
         media_data: dict = dict()
-        response = instagram_service.get_media_data(params, "17991133829270797")["json_data"]
+        response = instagram_service.get_media_data(self.params, "17991133829270797")["json_data"]
         for key, value in response.items():
             media_data[key] = value
 
         # メディア単体詳細インサイト
         media_insights_data: dict = dict()
-        response = instagram_service.get_media_insights(params, "17978345465233162")["json_data"]["data"]
+        response = instagram_service.get_media_insights(self.params, "17978345465233162")["json_data"]["data"]
         for insight in response:
             media_insights_data[insight["name"]] = insight["values"][0]["value"]
 
@@ -48,13 +49,13 @@ class Main:
         util = int(today_midnight_jst.timestamp())
 
         user_insights_day_data: dict = dict()
-        response = instagram_service.get_user_insights(params, since, util)["json_data"]["data"]
+        response = instagram_service.get_user_insights(self.params, since)["json_data"]["data"]
         for insight in response:
             user_insights_day_data[insight["name"]] = insight["values"][0]["value"]
 
         # ユーザーインサイト（累計？）
         user_insights_lifetime_data: dict = dict()
-        response = instagram_service.get_user_insights_lifetime(params)["json_data"]["data"]
+        response = instagram_service.get_user_insights_lifetime(self.params)["json_data"]["data"]
         for insight in response:
             user_insights_lifetime_data[insight["name"]] = insight["values"][0]["value"]
 
@@ -69,7 +70,7 @@ class Main:
 
     # アカウント分析（日別）インサート
     def insert_spread_day_data(self, user_insights_day_data: dict):
-        spread_service = SpreadService(os.getenv("SPREAD_ID"))
+        spread_service = SpreadService(self.params["spread_id"])
 
         spread_service.get_worksheet("アカウント分析（日別）")
         spread_data = spread_service.get_all_value()

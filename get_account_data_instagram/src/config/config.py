@@ -1,7 +1,9 @@
 import os
+from dotenv import load_dotenv
 
 
 def basic_info():
+    load_dotenv()
     config = dict()
     config["access_token"] = os.getenv('ACCESS_TOKEN')
     config["app_id"] = os.getenv('APP_ID')
@@ -11,6 +13,7 @@ def basic_info():
     config["graph_domain"] = os.getenv('GRAPH_DOMAIN')
     config["endpoint_base"] = os.getenv('GRAPH_DOMAIN') + os.getenv('VERSION') + '/'
     config["user_name"] = os.getenv('USER_NAME')
+    config["spread_id"] = os.getenv('SPREAD_ID')
 
     # 出力
     return config
