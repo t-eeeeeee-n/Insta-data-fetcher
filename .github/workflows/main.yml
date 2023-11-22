@@ -41,6 +41,16 @@ jobs:
           IMAGE_URI="${REGISTRY}/${REPOSITORY_NAME}:${IMAGE_TAG}"
           echo "IMAGE_URI=${IMAGE_URI}" >> $GITHUB_ENV
 
+      # 環境変数を出力するステップ
+      - name: Print Environment Variables
+        run: |
+          echo "AWS Region: $AWS_REGION"
+          echo "AWS Role to Assume: $AWS_ROLE_TO_ASSUME"
+          echo "Registry: $REGISTRY"
+          echo "Repository Name: $REPOSITORY_NAME"
+          echo "Image Tag: $IMAGE_TAG"
+          echo "Image URI: $IMAGE_URI"
+
       # AWS 認証
       - uses: aws-actions/configure-aws-credentials@v1-node16
         with:
