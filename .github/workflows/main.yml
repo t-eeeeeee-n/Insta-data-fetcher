@@ -38,7 +38,7 @@ jobs:
           REPOSITORY_NAME=${{ needs.extract-commit-message.outputs.repository-name }}
           echo "REPOSITORY_NAME=${REPOSITORY_NAME}" >> $GITHUB_ENV
           echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
-          IMAGE_URI="${REGISTRY}/${REPOSITORY_NAME}:${IMAGE_TAG}"
+          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${REPOSITORY_NAME}:${IMAGE_TAG}"
           echo "IMAGE_URI=${IMAGE_URI}" >> $GITHUB_ENV
 
       # 環境変数を出力するステップ
