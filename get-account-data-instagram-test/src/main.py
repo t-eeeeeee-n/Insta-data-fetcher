@@ -118,3 +118,4 @@ if __name__ == "__main__":
     Main().exec()
     print("update")
     print("update")
+    print("update")
