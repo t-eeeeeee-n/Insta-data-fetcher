@@ -32,13 +32,6 @@ jobs:
 
       - name: Setup environment variables
         run: |
-#          echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> $GITHUB_ENV
-#          echo "AWS_ROLE_TO_ASSUME=${{ secrets.AWS_ROLE_TO_ASSUME }}" >> $GITHUB_ENV
-#          echo "REGISTRY=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com" >> $GITHUB_ENV
-#          REPOSITORY_NAME=${{ needs.extract-commit-message.outputs.repository-name }}
-#          echo "REPOSITORY_NAME=${REPOSITORY_NAME}" >> $GITHUB_ENV
-#          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${REPOSITORY_NAME}:${{ github.sha }}"
-#          echo "IMAGE_URI=${IMAGE_URI}" >> $GITHUB_ENV
           
           AWS_REGION=${{ secrets.AWS_REGION }}
           AWS_ROLE_TO_ASSUME=${{ secrets.AWS_ROLE_TO_ASSUME }}
