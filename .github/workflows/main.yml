@@ -19,7 +19,12 @@ jobs:
           commit_message=$(git log -1 --pretty=%B)
           echo "Commit message: $commit_message"
           repository_name=$(echo "$commit_message" | grep -oP '(?<=<).*(?=>)')
-          echo "::set-output name=repository-name::${repository_name}"
+          if [[ -z "$repository_name" ]]; then
+            echo "Repository name not found in commit message"
+            echo "::set-output name=repository-name::default-repository"
+          else
+            echo "::set-output name=repository-name::${repository_name}"
+          fi
 
   push:
     runs-on: ubuntu-latest
