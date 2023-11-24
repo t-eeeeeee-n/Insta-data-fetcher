@@ -37,8 +37,7 @@ jobs:
           echo "REGISTRY=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com" >> $GITHUB_ENV
           REPOSITORY_NAME=${{ needs.extract-commit-message.outputs.repository-name }}
           echo "REPOSITORY_NAME=${REPOSITORY_NAME}" >> $GITHUB_ENV
-          echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
-          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${REPOSITORY_NAME}:${IMAGE_TAG}"
+          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${REPOSITORY_NAME}:${{ github.sha }}"
           echo "IMAGE_URI=${IMAGE_URI}" >> $GITHUB_ENV
 
       # 環境変数を出力するステップ
@@ -48,7 +47,6 @@ jobs:
           echo "AWS Role to Assume: $AWS_ROLE_TO_ASSUME"
           echo "Registry: $REGISTRY"
           echo "Repository Name: $REPOSITORY_NAME"
-          echo "Image Tag: $IMAGE_TAG"
           echo "Image URI: $IMAGE_URI"
 
       # AWS 認証
@@ -64,9 +62,9 @@ jobs:
       # Docker イメージを build・push する
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ env.IMAGE_URI }}${{ env.IMAGE_TAG }} ./${{ env.REPOSITORY_NAME }} -f ${{ env.REPOSITORY_NAME }}/docker/Dockerfile
+          docker build -t ${{ env.IMAGE_URI }} ./${{ env.REPOSITORY_NAME }} -f ${{ env.REPOSITORY_NAME }}/docker/Dockerfile
           docker images
-          docker push ${{ env.IMAGE_URI }}${{ env.IMAGE_TAG }}
+          docker push ${{ env.IMAGE_URI }}
 
 #  deploy:
 #    runs-on: ubuntu-latest
