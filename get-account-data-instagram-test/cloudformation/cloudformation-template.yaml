@@ -33,8 +33,9 @@ Resources:
               - lambda.amazonaws.com
             Action:
             - sts:AssumeRole
-        ManagedPolicyArns:
-          - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Path: /
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
 #      Policies:
 #        - PolicyName: LambdaECRPolicy
 #          PolicyDocument:
