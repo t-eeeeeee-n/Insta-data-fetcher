@@ -33,7 +33,6 @@ Resources:
               - lambda.amazonaws.com
             Action:
             - sts:AssumeRole
-        Path: /
         ManagedPolicyArns:
           - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       Policies:
