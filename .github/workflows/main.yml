@@ -64,9 +64,9 @@ jobs:
       # Docker イメージを build・push する
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ env.IMAGE_URI }}:${{ env.IMAGE_TAG }} ./${{ env.REPOSITORY_NAME }} -f ${{ env.REPOSITORY_NAME }}/docker/Dockerfile
+          docker build -t ${{ env.IMAGE_URI }}${{ env.IMAGE_TAG }} ./${{ env.REPOSITORY_NAME }} -f ${{ env.REPOSITORY_NAME }}/docker/Dockerfile
           docker images
-          docker push ${{ env.IMAGE_URI }}:${{ env.IMAGE_TAG }}
+          docker push ${{ env.IMAGE_URI }}${{ env.IMAGE_TAG }}
 
   deploy:
     runs-on: ubuntu-latest
