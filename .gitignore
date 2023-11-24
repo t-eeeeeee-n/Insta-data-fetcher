@@ -78,7 +78,7 @@ target/
 celerybeat-schedule
 
 # dotenv
-get_account_data_instagram/.env
+get-account-data-instagram/.env
 
 # virtualenv
 venv/
