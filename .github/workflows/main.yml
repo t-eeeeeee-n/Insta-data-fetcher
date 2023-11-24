@@ -28,17 +28,23 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v3
-
       - name: Setup environment variables
         run: |
-          echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> $GITHUB_ENV
-          echo "AWS_ROLE_TO_ASSUME=${{ secrets.AWS_ROLE_TO_ASSUME }}" >> $GITHUB_ENV
-          echo "REGISTRY=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com" >> $GITHUB_ENV
+#          echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> $GITHUB_ENV
+#          echo "AWS_ROLE_TO_ASSUME=${{ secrets.AWS_ROLE_TO_ASSUME }}" >> $GITHUB_ENV
+#          echo "REGISTRY=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com" >> $GITHUB_ENV
+#          REPOSITORY_NAME=${{ needs.extract-commit-message.outputs.repository-name }}
+#          echo "REPOSITORY_NAME=${REPOSITORY_NAME}" >> $GITHUB_ENV
+#          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${REPOSITORY_NAME}:${{ github.sha }}"
+#          echo "IMAGE_URI=${IMAGE_URI}" >> $GITHUB_ENV
+          
+          AWS_REGION=${{ secrets.AWS_REGION }}
+          AWS_ROLE_TO_ASSUME=${{ secrets.AWS_ROLE_TO_ASSUME }}
+          REGISTRY=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
           REPOSITORY_NAME=${{ needs.extract-commit-message.outputs.repository-name }}
-          echo "REPOSITORY_NAME=${REPOSITORY_NAME}" >> $GITHUB_ENV
-          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${REPOSITORY_NAME}:${{ github.sha }}"
-          echo "IMAGE_URI=${IMAGE_URI}" >> $GITHUB_ENV
+          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${REPOSITORY_NAME}:${{ github.sha }}
+
+      - uses: actions/checkout@v3
 
       # 環境変数を出力するステップ
       - name: Print Environment Variables
@@ -52,8 +58,8 @@ jobs:
       # AWS 認証
       - uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          aws-region: ${{ env.AWS_REGION }}
-          role-to-assume: ${{ env.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ AWS_REGION }}
+          role-to-assume: ${{ AWS_ROLE_TO_ASSUME }}
           role-session-name: GitHubActions
 
       # ECR ログイン
@@ -62,27 +68,43 @@ jobs:
       # Docker イメージを build・push する
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ env.IMAGE_URI }} ./${{ env.REPOSITORY_NAME }} -f ${{ env.REPOSITORY_NAME }}/docker/Dockerfile
+          docker build -t ${{ IMAGE_URI }} ./${{ REPOSITORY_NAME }} -f ${{ REPOSITORY_NAME }}/docker/Dockerfile
           docker images
-          docker push ${{ env.IMAGE_URI }}
+          docker push ${{ IMAGE_URI }}
 
-#  deploy:
-#    runs-on: ubuntu-latest
-#    needs: push
-#    steps:
-#      - uses: actions/checkout@v3
-#
-#      # AWS 認証
-#      - uses: aws-actions/configure-aws-credentials@v1
-#        with:
-#          aws-region: ${{ env.AWS_REGION }}
-#          role-to-assume: ${{ env.AWS_ROLE_TO_ASSUME }}
-#          role-session-name: GitHubActions
+  deploy:
+    runs-on: ubuntu-latest
+    needs: push
+    steps:
+      - name: Setup environment variables
+        run: |
+#          echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> $GITHUB_ENV
+#          echo "AWS_ROLE_TO_ASSUME=${{ secrets.AWS_ROLE_TO_ASSUME }}" >> $GITHUB_ENV
+#          echo "REGISTRY=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com" >> $GITHUB_ENV
+#          REPOSITORY_NAME=${{ needs.extract-commit-message.outputs.repository-name }}
+#          echo "REPOSITORY_NAME=${REPOSITORY_NAME}" >> $GITHUB_ENV
+#          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${REPOSITORY_NAME}:${{ github.sha }}"
+#          echo "IMAGE_URI=${IMAGE_URI}" >> $GITHUB_ENV
+
+          AWS_REGION=${{ secrets.AWS_REGION }}
+          AWS_ROLE_TO_ASSUME=${{ secrets.AWS_ROLE_TO_ASSUME }}
+          REPOSITORY_NAME=${{ needs.extract-commit-message.outputs.repository-name }}
+          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${REPOSITORY_NAME}:${{ github.sha }}
+
+      - uses: actions/checkout@v3
+
+      # AWS 認証
+      - uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: ${{ AWS_REGION }}
+          role-to-assume: ${{ AWS_ROLE_TO_ASSUME }}
+          role-session-name: GitHubActions
 
       - name: Deploy to CloudFormation
         run: |
+          REPOSITORY_NAME=${{ needs.extract-commit-message.outputs.repository-name }}
           aws cloudformation deploy \
-            --template-file ${{ env.REPOSITORY_NAME }}/cloudformation/cloudformation-template.yaml \
+            --template-file ${REPOSITORY_NAME}/cloudformation/cloudformation-template.yaml \
             --stack-name your-stack-name \
-            --parameter-overrides ImageUri=${{ env.IMAGE_URI }} FunctionName=${{ env.REPOSITORY_NAME }} \
+            --parameter-overrides ImageUri=${{ env.IMAGE_URI }} FunctionName=${REPOSITORY_NAME} \
             --capabilities CAPABILITY_IAM
