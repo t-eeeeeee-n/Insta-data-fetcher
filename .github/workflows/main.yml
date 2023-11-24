@@ -51,7 +51,7 @@ jobs:
           docker build -t ${IMAGE_URI} ./${REPOSITORY_NAME} -f ${REPOSITORY_NAME}/docker/Dockerfile
           docker push ${IMAGE_URI}
           
-          echo "::build-push name=repository-name::${REPOSITORY_NAME}"
+          echo "::set-output name=repository-name::${REPOSITORY_NAME}"
 
   deploy:
     runs-on: ubuntu-latest
