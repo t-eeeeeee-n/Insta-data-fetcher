@@ -5,6 +5,9 @@ Parameters:
   ImageUri:
     Type: String
     Description: The URI of the Docker image in ECR.
+  FunctionName:
+    Type: String
+    Description: The name of the Lambda function.
 
 Resources:
   MyLambdaFunction:
