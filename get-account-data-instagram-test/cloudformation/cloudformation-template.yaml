@@ -52,8 +52,7 @@ Resources:
                   - ecr:PutImage
                   - imagebuilder:GetComponent
                   - imagebuilder:GetContainerRecipe
-                  - ecr:GetAuthorizationToken
                   - logs:CreateLogGroup
                   - logs:CreateLogStream
                   - logs:PutLogEvents
-                Resource: '*'
+                Resource: 'arn:aws:ecr:ap-northeast-1:747280103911:repository/*'
