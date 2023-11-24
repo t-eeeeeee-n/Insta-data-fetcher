@@ -35,26 +35,26 @@ Resources:
             - sts:AssumeRole
         ManagedPolicyArns:
           - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-      Policies:
-        - PolicyName: LambdaECRPolicy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - ecr:GetImage
-                  - ecr:BatchCheckLayerAvailability
-                  - ecr:GetDownloadUrlForLayer
-                  - ecr:BatchGetImage
-                  - ecr:CompleteLayerUpload
-                  - ecr:GetAuthorizationToken
-                  - ecr:UploadLayerPart
-                  - ecr:InitiateLayerUpload
-                  - ecr:BatchCheckLayerAvailability
-                  - ecr:PutImage
-                  - imagebuilder:GetComponent
-                  - imagebuilder:GetContainerRecipe
-                  - logs:CreateLogGroup
-                  - logs:CreateLogStream
-                  - logs:PutLogEvents
-                Resource: 'arn:aws:ecr:ap-northeast-1:747280103911:repository/*'
+#      Policies:
+#        - PolicyName: LambdaECRPolicy
+#          PolicyDocument:
+#            Version: '2012-10-17'
+#            Statement:
+#              - Effect: Allow
+#                Action:
+#                  - ecr:GetImage
+#                  - ecr:BatchCheckLayerAvailability
+#                  - ecr:GetDownloadUrlForLayer
+#                  - ecr:BatchGetImage
+#                  - ecr:CompleteLayerUpload
+#                  - ecr:GetAuthorizationToken
+#                  - ecr:UploadLayerPart
+#                  - ecr:InitiateLayerUpload
+#                  - ecr:BatchCheckLayerAvailability
+#                  - ecr:PutImage
+#                  - imagebuilder:GetComponent
+#                  - imagebuilder:GetContainerRecipe
+#                  - logs:CreateLogGroup
+#                  - logs:CreateLogStream
+#                  - logs:PutLogEvents
+#                Resource: 'arn:aws:ecr:ap-northeast-1:747280103911:repository/*'
