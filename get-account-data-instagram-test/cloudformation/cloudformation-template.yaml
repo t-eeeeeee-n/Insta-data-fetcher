@@ -50,6 +50,9 @@ Resources:
                   - ecr:InitiateLayerUpload
                   - ecr:BatchCheckLayerAvailability
                   - ecr:PutImage
+                  - imagebuilder:GetComponent
+                  - imagebuilder:GetContainerRecipe
+                  - ecr:GetAuthorizationToken
                   - logs:CreateLogGroup
                   - logs:CreateLogStream
                   - logs:PutLogEvents
