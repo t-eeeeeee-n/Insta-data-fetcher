@@ -84,7 +84,7 @@ jobs:
       - name: Deploy to CloudFormation
         run: |
           aws cloudformation deploy \
-            --template-file ./cloudformation/cloudformation-template.yaml \
+            --template-file cloudformation/cloudformation-template.yaml \
             --stack-name your-stack-name \
             --parameter-overrides ImageUri=${{ env.IMAGE_URI }} FunctionName=${{ env.REPOSITORY_NAME }} \
             --capabilities CAPABILITY_IAM
