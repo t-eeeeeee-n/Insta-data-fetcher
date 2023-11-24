@@ -67,7 +67,7 @@ jobs:
 
       - name: Deploy to CloudFormation
         run: |
-          REPOSITORY_NAME=${{ needs.extract-commit-message.outputs.repository-name }}
+          REPOSITORY_NAME=${{ needs.push.outputs.repository-name }}
           IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${REPOSITORY_NAME}:${{ github.sha }}"
           aws cloudformation deploy \
             --template-file ${REPOSITORY_NAME}/cloudformation/cloudformation-template.yaml \
