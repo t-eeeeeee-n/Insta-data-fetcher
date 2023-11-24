@@ -49,11 +49,11 @@ jobs:
       # 環境変数を出力するステップ
       - name: Print Environment Variables
         run: |
-          echo "AWS Region: ${AWS_REGION}"
-          echo "AWS Role to Assume: ${AWS_ROLE_TO_ASSUME}"
-          echo "Registry: ${REGISTRY}"
-          echo "Repository Name: ${REPOSITORY_NAME}"
-          echo "Image URI: ${IMAGE_URI}"
+          echo "AWS Region: $AWS_REGION"
+          echo "AWS Role to Assume: $AWS_ROLE_TO_ASSUME"
+          echo "Registry: $REGISTRY"
+          echo "Repository Name: $REPOSITORY_NAME"
+          echo "Image URI: $IMAGE_URI"
 
       # AWS 認証
       - uses: aws-actions/configure-aws-credentials@v1-node16
