@@ -28,6 +28,8 @@ jobs:
       id-token: write
       contents: read
     steps:
+      - uses: actions/checkout@v3
+
       - name: Setup environment variables
         run: |
 #          echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> $GITHUB_ENV
@@ -43,8 +45,6 @@ jobs:
           REGISTRY=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
           REPOSITORY_NAME=${{ needs.extract-commit-message.outputs.repository-name }}
           IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${REPOSITORY_NAME}:${{ github.sha }}
-
-      - uses: actions/checkout@v3
 
       # 環境変数を出力するステップ
       - name: Print Environment Variables
@@ -76,6 +76,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: push
     steps:
+      - uses: actions/checkout@v3
+
       - name: Setup environment variables
         run: |
 #          echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> $GITHUB_ENV
@@ -90,8 +92,6 @@ jobs:
           AWS_ROLE_TO_ASSUME=${{ secrets.AWS_ROLE_TO_ASSUME }}
           REPOSITORY_NAME=${{ needs.extract-commit-message.outputs.repository-name }}
           IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${REPOSITORY_NAME}:${{ github.sha }}
-
-      - uses: actions/checkout@v3
 
       # AWS 認証
       - uses: aws-actions/configure-aws-credentials@v1-node16
