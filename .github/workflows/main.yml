@@ -81,6 +81,7 @@ jobs:
 #          role-to-assume: ${{ env.AWS_ROLE_TO_ASSUME }}
 #          role-session-name: GitHubActions
 
+
       - name: Deploy to CloudFormation
         run: |
           aws cloudformation deploy \
