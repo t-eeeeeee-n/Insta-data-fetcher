@@ -6,23 +6,23 @@ from service.spread.spread_service import SpreadService
 
 
 class Main:
-    SPREAD_ID = "1yDqCXJs2ezFPMAP3iPFKxPcn8c2jOw0odrrau9YMUfE"
+    def __init__(self):
+        # リクエストパラメータ
+        self.params = basic_info()  # リクエストパラメータ
 
     def exec(self):
-        # リクエストパラメータ
-        params = basic_info()  # リクエストパラメータ
 
         instagram_service = InstagramService()
 
         # フォロワー数、メディア数（投稿数）、メディアデータリスト
         user_discovery_data: dict = dict()
-        response = instagram_service.get_user_business_discovery(params)["json_data"]["business_discovery"]
+        response = instagram_service.get_user_business_discovery(self.params)["json_data"]["business_discovery"]
         for key, value in response.items():
             user_discovery_data[key] = value
 
         # ユーザーインサイト（日別）
         user_insights_day_data: dict = dict()
-        response = instagram_service.get_user_insights(params)["json_data"]["data"]
+        response = instagram_service.get_user_insights(self.params)["json_data"]["data"]
         for insight in response:
             user_insights_day_data[insight["name"]] = insight["values"][0]["value"]
 
@@ -31,7 +31,7 @@ class Main:
 
     # アカウント分析（累計）インサート
     def insert_spread_total_data(self, user_discovery_data: dict):
-        spread_service = SpreadService(self.SPREAD_ID)
+        spread_service = SpreadService(self.params['spread_id'])
 
         spread_service.get_worksheet("アカウント分析（累計）")
         spread_data = spread_service.get_all_value()
@@ -52,7 +52,7 @@ class Main:
 
     # アカウント分析（日別）インサート
     def insert_spread_day_data(self, user_insights_day_data: dict):
-        spread_service = SpreadService(self.SPREAD_ID)
+        spread_service = SpreadService(self.params['spread_id'])
 
         spread_service.get_worksheet("アカウント分析（日別）")
         spread_data = spread_service.get_all_value()
@@ -116,7 +116,3 @@ class Main:
 
 if __name__ == "__main__":
     Main().exec()
-    print("update")
-    print("update")
-    print("update")
-    print("update")
