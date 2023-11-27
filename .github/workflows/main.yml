@@ -27,7 +27,7 @@ jobs:
           fi
 
   push:
-    if: ${{ steps.build-push.outputs.repository-name  != ''}}
+    if: ${{ needs.extract-commit-message.outputs.repository-name != ''}}
     runs-on: ubuntu-latest
     needs: extract-commit-message
     outputs:
@@ -60,7 +60,7 @@ jobs:
           echo "::set-output name=repository-name::${REPOSITORY_NAME}"
 
   deploy:
-    if: ${{ steps.build-push.outputs.repository-name  != ''}}
+    if: ${{ needs.extract-commit-message.outputs.repository-name != ''}}
     runs-on: ubuntu-latest
     needs: push
     permissions:
