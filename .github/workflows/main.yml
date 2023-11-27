@@ -21,13 +21,13 @@ jobs:
           repository_name=$(echo "$commit_message" | grep -oP '(?<=<).*(?=>)')
           if [[ -z "$repository_name" ]]; then
             echo "Repository name not found in commit message"
-            echo "::set-output name=repository-name::default-repository"
-            exit 0 # ここでスクリプトを終了させる
+            echo "::set-output name=repository-name::"
           else
             echo "::set-output name=repository-name::${repository_name}"
           fi
 
   push:
+    if: ${{ steps.build-push.outputs.repository-name  != ''}}
     runs-on: ubuntu-latest
     needs: extract-commit-message
     outputs:
@@ -60,6 +60,7 @@ jobs:
           echo "::set-output name=repository-name::${REPOSITORY_NAME}"
 
   deploy:
+    if: ${{ steps.build-push.outputs.repository-name  != ''}}
     runs-on: ubuntu-latest
     needs: push
     permissions:
