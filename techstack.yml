@@ -1,11 +1,11 @@
 repo_name: t-eeeeeee-n/Insta-data-fetcher
-report_id: f7d275794907b39055fbc53320634d54
+report_id: 682e9729e3bf54213a2f9271e4ce9749
 repo_type: Public
-timestamp: '2023-12-01T00:45:25+00:00'
+timestamp: '2023-12-14T13:26:49+00:00'
 requested_by: t-eeeeeee-n
 provider: github
 branch: main
-detected_tools_count: 11
+detected_tools_count: 13
 tools:
 - name: Python
   description: A clear and powerful object-oriented programming language, comparable
@@ -17,6 +17,17 @@ tools:
   sub_category: Languages
   image_url: https://img.stackshare.io/service/993/pUBY5pVj.png
   detection_source: Repo Metadata
+- name: pgvector
+  description: Open-source vector similarity search for Postgres
+  website_url: https://github.com/pgvector/pgvector/
+  open_source: false
+  hosted_saas: false
+  category: Data Stores
+  sub_category: Database Tools
+  image_url: https://img.stackshare.io/service/109221/default_b888cdf5617d936aa6aacf130911906955508639.png
+  detection_source: all/docker/requirements.txt
+  last_updated_by: t-eeeeeee-n
+  last_updated_on: 2023-11-22 09:26:35.000000000 Z
 - name: Docker
   description: Enterprise Container Platform for High-Velocity Innovation.
   website_url: https://www.docker.com/
@@ -55,6 +66,17 @@ tools:
   category: Build, Test, Deploy
   sub_category: Hosted Package Repository
   image_url: https://img.stackshare.io/service/12572/-RIWgodF_400x400.jpg
+  detection_source: all/docker/requirements.txt
+  last_updated_by: t-eeeeeee-n
+  last_updated_on: 2023-11-22 09:26:35.000000000 Z
+- name: LangChain
+  description: Build AI apps with LLMs through composability
+  website_url: https://github.com/hwchase17/langchain
+  open_source: true
+  hosted_saas: false
+  category: Communications
+  sub_category: Large Language Model Tools
+  image_url: https://img.stackshare.io/service/48790/default_5b6c6b73f1ff3775c85d2a1ba954cb87e30cbf13.jpg
   detection_source: all/docker/requirements.txt
   last_updated_by: t-eeeeeee-n
   last_updated_on: 2023-11-22 09:26:35.000000000 Z
