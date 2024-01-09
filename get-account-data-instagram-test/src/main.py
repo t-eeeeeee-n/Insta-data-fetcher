@@ -7,7 +7,7 @@ from service.spread.spread_service import SpreadService
 
 class Main:
     def __init__(self):
-        # リクエストパラメータ
+        # リクエストパラメータtest
         self.params = basic_info()  # リクエストパラメータ
 
     def exec(self):
